@@ -2,9 +2,6 @@
 
 @section('content')
 <nav id="nav">
-    <ul>
-    <li><a href="{{ url($user->role) }}">Home</a></li>
-    </ul>
 </nav>
 <div id="main">
 

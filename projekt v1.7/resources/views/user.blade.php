@@ -10,7 +10,7 @@
 						<ul>
 							<li><a href="#intro" class="active">Home</a></li>
 							<li><a href="#third">Twoje wypożyczenia</a></li>
-                            <li><a href="#four">Znajdź książkę</a></li>
+                            <li><a href="#four">Wypożycz książkę</a></li>
 							<li><a href="#first">Nasze biblioteki</a></li>
 							<li><a href="#five">Edytuj swoje konta</a></li>
 							<li>
@@ -46,38 +46,39 @@
 								</div>
 							</section>
 
-						
+						<!-- Third Section -->
 
-						<!-- Fifth section -->
-							<section id="third" class="main special">
-								<header class="major">
-									<h2>Aktualnie wypożyczone książki</h2>
-									<p>wypozyczenia<br />
-									</p>
-								</header>
-								<footer class="major">
-									<ul class="actions special">
-										<!-- <li><a href="generic.html" class="button primary">Załóż konto</a></li> -->
-										<!-- <li><a href="generic.html" class="button">Learn More</a></li> -->
-									</ul>
-								</footer>
-							</section>
+						<div id="main">
+    <section id="third" class="main special">
+        <header class="major">
+            <h2>Aktualnie wypożyczone książki</h2>
+            <p>Wypożyczenia</p>
+        </header>
+        @foreach($rentals as $rental)
+            <p>{{ $rental->book->tytul }} - {{ $rental->status }}</p>
+        @endforeach
+    </section>
+</div>
 
+<!-- Four Section -->
 
-                    <!-- Fourth Section -->
-
-                    <section id="four" class="main special">
-								<header class="major">
-									<h2>Znajdź książkę</h2>
-                                    <p>Tytuł: <input id="id_tytul_ksiazki" type="text" placeholder="np. Krzyżacy" name="tytulKsiazki"></p>
-								</header>
-								<footer class="major">
-									<ul class="actions special">
-										<!-- <li><a href="generic.html" class="button primary">Załóż konto</a></li> -->
-										<!-- <li><a href="generic.html" class="button">Learn More</a></li> -->
-									</ul>
-								</footer>
-							</section>
+				
+<div id="main">
+    <section id="four" class="main special">
+        <header class="major">
+            <h2>Znajdź książkę</h2>
+            <form action="{{ route('rentals.store') }}" method="POST">
+                @csrf
+                <select name="book_id">
+                    @foreach($books as $book)
+                        <option value="{{ $book->id }}">{{ $book->tytul }}</option>
+                    @endforeach
+                </select>
+                <button type="submit">Wypożycz</button>
+            </form>
+        </header>
+    </section>
+</div>
 
 							<!-- First Section -->
 							<section id="first" class="main special">

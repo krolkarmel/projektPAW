@@ -2,18 +2,15 @@
 
 @section('content')
 <nav id="nav">
-  <ul>
-  <li><a href="{{ url($user->role) }}">Home</a></li>
-  </ul>
 </nav>
 
 <div id="main">
   <h1>Lista książek</h1>
-
- 
+<br>
+<a href="/createbooks" class="button">Dodaj</a>
 
   <br>
-
+<br>
   <table class="table">
     <thead>
       <tr>

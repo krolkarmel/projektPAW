@@ -9,6 +9,7 @@
 							<li><a href="#intro" class="active">Home</a></li>
 							<li><a href="#first">Dodaj książki</a></li>
 							<li><a href="#second">Edytuj książki</a></li>
+							<li><a href="#third">Edytuj status wypożyczenia</a></li>
 							<li><a href="#five">Edytuj swoje dane</a></li>
                             <li>
                 <a href="{{ route('logout') }}" 
@@ -89,6 +90,31 @@
 									</ul>
 								</footer>
 							</section>
+
+						<!-- Third Section -->
+
+						<div id="main">
+    <section id="third" class="main special">
+        <header class="major">
+            <h2>Edytuj status wypożyczenia</h2>
+        </header>
+        @foreach($rentals as $rental)
+            <div>
+                <p>{{ $rental->book->tytul }} - {{ $rental->status }}</p>
+                <form action="{{ route('rentals.updateStatus', $rental) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <select name="status">
+                        <option value="in progress" {{ $rental->status == 'in progress' ? 'selected' : '' }}>In Progress</option>
+                        <option value="borrowed" {{ $rental->status == 'borrowed' ? 'selected' : '' }}>Borrowed</option>
+                        <option value="returned" {{ $rental->status == 'returned' ? 'selected' : '' }}>Returned</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        @endforeach
+    </section>
+</div>
 
 								<!-- Five Section -->
 								<section id="five" class="main special">

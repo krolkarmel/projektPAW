@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\OpinionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RentalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -19,9 +20,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware(['can:isUser'])->group(function () {
-        Route::get('/user', function () {
-            return view('user');
-        })->name('user.dashboard');
+        Route::get('/user', [RentalController::class, 'dashboard'])->name('user.dashboard');
+
+        Route::get('/rentals', [RentalController::class, 'index'])->name('rentals.index');
+        Route::get('/rentals/create', [RentalController::class, 'create'])->name('rentals.create');
+        Route::post('/rentals', [RentalController::class, 'store'])->name('rentals.store');
 
         Route::get('/editAccountt', [AccountController::class, 'edit'])->name('account.edit');
         Route::post('/editAccount', [AccountController::class, 'update'])->name('account.update');
@@ -30,9 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::middleware(['can:isWorker'])->group(function () {
-        Route::get('/worker', function () {
-            return view('worker');
-        })->name('worker.dashboard');
+        Route::get('/worker', [RentalController::class, 'workerDashboard'])->name('worker.dashboard');
+
+        Route::patch('/rentals/{rental}', [RentalController::class, 'updateStatus'])->name('rentals.updateStatus');
 
         Route::get('/editAccount', [AccountController::class, 'edit'])->name('account.edit');
         Route::post('/editAccount', [AccountController::class, 'update'])->name('account.update');
@@ -55,11 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/users', [AdminController::class, 'index'])->name('users.index');
         Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 
-
         Route::get('/editRole', [UserController::class, 'index'])->name('user.index');
         Route::post('/user/update-role/{id}', [UserController::class, 'updateRole'])->name('updateUserRole');
-
-
-
     });
 });
