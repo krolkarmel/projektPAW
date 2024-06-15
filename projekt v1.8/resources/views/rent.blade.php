@@ -1,15 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <nav id="nav">
-  <ul>
-    <e><a href="/{{Auth::user()->role}}">Home</a></li>
-  </ul>
+    <ul>
+        <li><a href="{{ url(Auth::user()->role) }}">Home</a></li>
+    </ul>
 </nav>
+
 <div id="main">
-        <header class="major">
-            <h2>Wyniki wyszukiwania książek</h2>
-        </header>
+    <section id="four" class="main special">
+
         @isset($books)
         <div class="table-wrapper">
             <table class="table">
@@ -30,11 +37,15 @@
                         <td>{{ $book->imie_autor }} {{ $book->nazwisko_autor }}</td>
                         <td>{{ $book->data_wydania }}</td>
                         <td>
+                            @if($book->status === 'available')
                             <form action="{{ route('rentals.store') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="book_id" value="{{ $book->id }}">
                                 <button type="submit" class="btn btn-primary btn-sm">Wypożycz</button>
                             </form>
+                            @else
+                            <button class="btn btn-secondary btn-sm" disabled>Książka aktualnie niedostępna</button>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
@@ -42,6 +53,7 @@
             </table>
         </div>
         @endisset
+    </section>
+</div>
 
-        </div>
 @endsection

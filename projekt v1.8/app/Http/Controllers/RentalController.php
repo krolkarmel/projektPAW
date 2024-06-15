@@ -31,23 +31,28 @@ class RentalController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'book_id' => 'required|exists:book,id', // Zmieniono books na book
-        ]);
+{
+    $request->validate([
+        'book_id' => 'required|exists:book,id',
+    ]);
 
-        $rental = new Rental();
-        $rental->user_id = Auth::id();
-        $rental->book_id = $request->book_id;
-        $rental->status = 'in progress';
-        $rental->save();
+    $book = Books::find($request->book_id);
 
-        $book = Books::find($request->book_id); // Zmieniono Books na Book
-        $book->status = 'borrowed';
-        $book->save();
-
-        return redirect()->route('user')->with('success', 'Book borrowed successfully.');
+    if ($book->status === 'borrowed') {
+        return redirect()->back()->with('error', 'Książka aktualnie niedostępna.');
     }
+
+    $rental = new Rental();
+    $rental->user_id = Auth::id();
+    $rental->book_id = $request->book_id;
+    $rental->status = 'in progress';
+    $rental->save();
+
+    $book->status = 'borrowed';
+    $book->save();
+
+    return redirect()->route('user')->with('success', 'Book borrowed successfully.');
+}
 
     public function updateStatus(Request $request, Rental $rental)
     {
