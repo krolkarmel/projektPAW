@@ -2015,7 +2015,7 @@ input, select, textarea {
 		outline: 0;
 		padding: 0 1em;
 		text-decoration: none;
-		width: 100%;
+		width: "50";
 	}
 
 		input[type="text"]:invalid,
@@ -3337,6 +3337,8 @@ input, select, textarea {
 		background-color: #ffffff;
 		color: #636363;
 		border-radius: 0.25em;
+		padding: 20px;
+		box-sizing: border-box;
 	}
 
 		#main input, #main select, #main textarea {
@@ -3782,4 +3784,34 @@ input, select, textarea {
 				max-width: 100%;
 			}
 
+		}
+
+		.pagination {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+		}
+		
+		.pagination li {
+			display: inline;
+			margin-right: 5px;
+		}
+		
+		.pagination li a,
+		.pagination li span {
+			text-decoration: none;
+			padding: 5px 10px;
+			color: #007bff;
+			border: 1px solid #ddd;
+			border-radius: 5px;
+		}
+		
+		.pagination li a:hover {
+			background-color: #f8f9fa;
+		}
+		
+		.pagination li.active span {
+			background-color: #007bff;
+			color: white;
+			border-color: #007bff;
 		}
